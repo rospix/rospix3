@@ -1,0 +1,5 @@
+<library path="lib/libRospix3">
+  <class name="rospix3/Rospix3" type="rospix3::Rospix3" base_class_type="nodelet::Nodelet">
+    <description>Rospix3</description>
+  </class>
+</library>
