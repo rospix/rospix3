@@ -36,3 +36,18 @@ if [ "$num" -lt "1" ]; then
 source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
 
 fi
+
+if [ "$distro" = "18.04" ]; then
+
+sudo apt-get -y install \
+  python-setuptools\
+  python3-setuptools\
+  python-catkin-tools\
+
+elif [ "$distro" = "20.04" ]; then
+
+sudo apt-get -y install \
+  python3-setuptools\
+  python3-catkin-tools\
+
+fi
