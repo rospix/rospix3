@@ -25,7 +25,7 @@
 
   <group ns="$(arg UAV_NAME)">
 
-    <node pkg="nodelet" type="nodelet" name="rospix3" args="$(arg nodelet) rospix3/ComptonCamera $(arg nodelet_manager)" launch-prefix="$(arg launch_prefix_debug)" output="screen">
+    <node pkg="nodelet" type="nodelet" name="rospix3" args="$(arg nodelet) rospix3/Rospix3 $(arg nodelet_manager)" launch-prefix="$(arg launch_prefix_debug)" output="screen">
 
       <rosparam file="$(find rospix3)/config/default.yaml" />
 
