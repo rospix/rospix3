@@ -49,6 +49,7 @@ elif [ "$distro" = "20.04" ]; then
 sudo apt-get -y install \
   python3-setuptools\
   python3-catkin-tools\
+  python3-osrf-pycommon\
 
 fi
 
