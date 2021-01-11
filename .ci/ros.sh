@@ -48,6 +48,8 @@ sudo apt-get -y install \
   ros-$ROS_DISTRO-image-transport-plugins\
   ros-$ROS_DISTRO-compressed-image-transport\
   ros-$ROS_DISTRO-theora-image-transport\
+  ros-$ROS_DISTRO-pcl-ros\
+  ros-$ROS_DISTRO-pcl-conversions\
 
 if [ "$distro" = "18.04" ]; then
 
