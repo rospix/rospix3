@@ -51,3 +51,10 @@ sudo apt-get -y install \
   python3-catkin-tools\
 
 fi
+
+# ros-related
+sudo apt-get -y install \
+  ros-$ROS_DISTRO-tf-conversions\
+  ros-$ROS_DISTRO-tf2-sensor-msgs\
+  ros-$ROS_DISTRO-tf2-geometry-msgs\
+  ros-$ROS_DISTRO-tf2-eigen\
