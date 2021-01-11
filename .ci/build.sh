@@ -13,7 +13,7 @@ cd ~/catkin_ws/src
 echo "Cloning dependencies"
 git clone https://github.com/ctu-mrs/mrs_msgs.git
 git clone https://github.com/ctu-mrs/mrs_lib.git
-git clone https://github.com/ctu-mrs/rad_msgs.git
+git clone https://github.com/rospix/rad_msgs.git
 ln -s $MY_PATH ./
 source /opt/ros/$ROS_DISTRO/setup.bash
 cd ~/catkin_ws
