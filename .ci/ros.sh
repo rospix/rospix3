@@ -58,3 +58,7 @@ sudo apt-get -y install \
   ros-$ROS_DISTRO-tf2-sensor-msgs\
   ros-$ROS_DISTRO-tf2-geometry-msgs\
   ros-$ROS_DISTRO-tf2-eigen\
+
+# other
+sudo apt-get -y install \
+  libopencv-dev\
