@@ -41,7 +41,7 @@ jobs:
         run: ./.ci/pre_install.sh
 
       - name: Ros
-        run: ./.ci/ros.sh
+        run: ./installation/install_dependencies.sh
 
       - name: Build
         run: ./.ci/build.sh

@@ -37,7 +37,7 @@ source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
 
 fi
 
-# general ros-related
+# general ros-related dependencies
 sudo apt-get -y install \
   ros-$ROS_DISTRO-tf-conversions\
   ros-$ROS_DISTRO-tf2-sensor-msgs\
@@ -51,6 +51,7 @@ sudo apt-get -y install \
   ros-$ROS_DISTRO-pcl-ros\
   ros-$ROS_DISTRO-pcl-conversions\
 
+# Melodic-specific dependencies
 if [ "$distro" = "18.04" ]; then
 
 sudo apt-get -y install \
@@ -58,6 +59,7 @@ sudo apt-get -y install \
   python3-setuptools\
   python-catkin-tools\
 
+# Noetic-specific dependencies
 elif [ "$distro" = "20.04" ]; then
 
 sudo apt-get -y install \
@@ -67,6 +69,6 @@ sudo apt-get -y install \
 
 fi
 
-# other
+# other dependencies
 sudo apt-get -y install \
   libopencv-dev\
