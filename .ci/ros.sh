@@ -37,6 +37,18 @@ source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
 
 fi
 
+# general ros-related
+sudo apt-get -y install \
+  ros-$ROS_DISTRO-tf-conversions\
+  ros-$ROS_DISTRO-tf2-sensor-msgs\
+  ros-$ROS_DISTRO-tf2-geometry-msgs\
+  ros-$ROS_DISTRO-tf2-eigen\
+  ros-$ROS_DISTRO-cv-bridge\
+  ros-$ROS_DISTRO-image-transport\
+  ros-$ROS_DISTRO-image-transport-plugins\
+  ros-$ROS_DISTRO-compressed-image-transport\
+  ros-$ROS_DISTRO-theora-image-transport\
+
 if [ "$distro" = "18.04" ]; then
 
 sudo apt-get -y install \
@@ -52,14 +64,6 @@ sudo apt-get -y install \
   python3-osrf-pycommon\
 
 fi
-
-# ros-related
-sudo apt-get -y install \
-  ros-$ROS_DISTRO-tf-conversions\
-  ros-$ROS_DISTRO-tf2-sensor-msgs\
-  ros-$ROS_DISTRO-tf2-geometry-msgs\
-  ros-$ROS_DISTRO-tf2-eigen\
-  ros-$ROS_DISTRO-cv-bridge\
 
 # other
 sudo apt-get -y install \
