@@ -5,7 +5,7 @@ measuring: true
 use_calibration: false
 
 # save t3pa data?
-save_raw_data: false
+save_raw_data: true
 
 # how often do we check whether the measurement is ongoing
 # if its not, we start new measurement
