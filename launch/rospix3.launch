@@ -4,7 +4,9 @@
 
   <!-- path to configuration and calibration files -->
   <!-- <arg name="calibration_path" default="$(find rospix3)/lib/x64/configs/MiniPIX-I04-W0037" /> -->
-  <arg name="calibration_path" default="$(find rospix3)/lib/x64/configs/MiniPIX-L06-W0060" />
+  <!-- <arg name="calibration_path" default="$(find rospix3)/lib/x64/configs/MiniPIX-L06-W0060" /> -->
+  <!-- <arg name="calibration_path" default="$(find rospix3)/lib/x64/configs/MiniPIX-I08-W0060" /> -->
+  <arg name="calibration_path" default="$(find rospix3)/lib/x64/configs/MiniPIX-E04-W0060" />
 
   <arg name="rospix3_frame" default="rospix3" />
 
