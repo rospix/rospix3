@@ -2,7 +2,7 @@
 measuring: true
 
 # should load calibration?
-use_calibration: false
+use_calibration: true
 
 # save t3pa data?
 save_raw_data: true

@@ -62,9 +62,9 @@
         <DDBuffSize>100</DDBuffSize>
         <DebugLog>false</DebugLog>
         <DummyAcqNegativePolarity>true</DummyAcqNegativePolarity>
-        <MaxAllowedChipTemp>55</MaxAllowedChipTemp>
+        <MaxAllowedChipTemp>80</MaxAllowedChipTemp>
         <SendDummyToaPixels>true</SendDummyToaPixels>
-        <TemperatureReadBeforeAcqSerie>false</TemperatureReadBeforeAcqSerie>
+        <TemperatureReadBeforeAcqSerie>true</TemperatureReadBeforeAcqSerie>
         <TemperatureReadBeforeEachAcq>false</TemperatureReadBeforeEachAcq>
         <TrgOutEnable>false</TrgOutEnable>
         <TrgOutLevel>0</TrgOutLevel>
