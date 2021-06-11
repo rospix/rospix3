@@ -16,6 +16,3 @@ LIBDIR=$(dirname "${LIBUDEV}")
 if [ ! -f "$LIBDIR"/libudev.so.0 ]; then
     sudo ln -s "$LIBUDEV" "$LIBDIR"/libudev.so.0
 fi
-
-
-
