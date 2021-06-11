@@ -64,7 +64,7 @@
         <DummyAcqNegativePolarity>true</DummyAcqNegativePolarity>
         <MaxAllowedChipTemp>80</MaxAllowedChipTemp>
         <SendDummyToaPixels>true</SendDummyToaPixels>
-        <TemperatureReadBeforeAcqSerie>true</TemperatureReadBeforeAcqSerie>
+        <TemperatureReadBeforeAcqSerie>false</TemperatureReadBeforeAcqSerie>
         <TemperatureReadBeforeEachAcq>false</TemperatureReadBeforeEachAcq>
         <TrgOutEnable>false</TrgOutEnable>
         <TrgOutLevel>0</TrgOutLevel>
