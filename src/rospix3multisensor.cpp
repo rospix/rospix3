@@ -310,8 +310,6 @@ void Rospix3Multisensor::callbackTimepixProgress0(bool finished, double progress
 
   int sensor = 0;
 
-  ROS_INFO("[Rospix3Multisensor]: sensor %d", sensor);
-
   ROS_INFO("[Rospix3Multisensor]: (%s): callbackProgress(): %.2f", _sensors_[sensor].c_str(), progress);
 
   if (finished) {
@@ -433,8 +431,6 @@ void Rospix3Multisensor::callbackTimepixMessage1(bool error, const char* message
 void Rospix3Multisensor::callbackTimepixProgress1(bool finished, double progress, [[maybe_unused]] void* user_data) {
 
   int sensor = 1;
-
-  ROS_INFO("[Rospix3Multisensor]: sensor %d", sensor);
 
   ROS_INFO("[Rospix3Multisensor]: (%s): callbackProgress(): %.2f", _sensors_[sensor].c_str(), progress);
 

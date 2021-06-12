@@ -19,17 +19,21 @@
   <arg unless="$(arg standalone)" name="nodelet_manager" value="$(arg manager)"/>
   <arg     if="$(arg standalone)" name="nodelet_manager" value=""/>
 
-  <node pkg="nodelet" type="nodelet" name="rospix3" args="$(arg nodelet) rospix3/Rospix3Multisensor $(arg nodelet_manager)" launch-prefix="$(arg launch_prefix_debug)" output="screen">
+  <group ns="$(arg UAV_NAME)">
 
-    <rosparam file="$(find rospix3)/config/multi.yaml" />
+    <node pkg="nodelet" type="nodelet" name="rospix3" args="$(arg nodelet) rospix3/Rospix3Multisensor $(arg nodelet_manager)" launch-prefix="$(arg launch_prefix_debug)" output="screen">
 
-    <param name="frame_prefix" value="$(arg frame_prefix)" />
+      <rosparam file="$(find rospix3)/config/multi.yaml" />
 
-    <param name="raw_data_path" value="$(arg raw_data_path)" />
-    <param name="calibration_path" value="$(arg calibration_path)" />
+      <param name="frame_prefix" value="$(arg frame_prefix)" />
 
-    <param name="verbose" value="$(arg verbose)" />
+      <param name="raw_data_path" value="$(arg raw_data_path)" />
+      <param name="calibration_path" value="$(arg calibration_path)" />
 
-  </node>
+      <param name="verbose" value="$(arg verbose)" />
+
+    </node>
+
+  </group>
 
 </launch>
