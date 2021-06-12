@@ -163,7 +163,7 @@ void Rospix3Multisensor::onInit() {
 
   for (int i = 0; i < n_sensors_; i++) {
 
-    timepix_handlers_.push_back(std::make_unique<clhandle_t>(pxpClCreate(0)));
+    timepix_handlers_.push_back(std::make_unique<clhandle_t>(pxpClCreate(i)));
 
     // | ---------------- load detector calibration --------------- |
 
@@ -197,21 +197,20 @@ void Rospix3Multisensor::onInit() {
 
     // | ------------- bind the timepix api callbacks ------------- |
 
-    ClMessageCallback callback_message_ptr = GETCB(ClMessageCallback, Rospix3Multisensor)(
-        std::bind(&Rospix3Multisensor::callbackTimepixMessage, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, i));
+    ClMessageCallback callback_message_ptr =
+        GETCB(ClMessageCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixMessage, this, _1, _2, _3, i));
 
-    ClProgressCallback callback_progress_ptr = GETCB(ClProgressCallback, Rospix3Multisensor)(
-        std::bind(&Rospix3Multisensor::callbackTimepixProgress, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, i));
+    ClProgressCallback callback_progress_ptr =
+        GETCB(ClProgressCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixProgress, this, _1, _2, _3, i));
 
     ClNewClustersWithPixelsCallback callback_new_clusters_with_pixels_ptr = GETCB(
-        ClNewClustersWithPixelsCallback, Rospix3Multisensor)(std::bind(&Rospix3Multisensor::callbackTimepixNewClustersWithPixels, this, std::placeholders::_1,
-                                                                       std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, i));
+        ClNewClustersWithPixelsCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixNewClustersWithPixels, this, _1, _2, _3, _4, i));
 
-    ClAcqStartedCallback callback_acquisition_start_ptr = GETCB(ClAcqStartedCallback, Rospix3Multisensor)(
-        std::bind(&Rospix3Multisensor::callbackTimepixAcquisitionStart, this, std::placeholders::_1, std::placeholders::_2, i));
+    ClAcqStartedCallback callback_acquisition_start_ptr =
+        GETCB(ClAcqStartedCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixAcquisitionStart, this, _1, _2, i));
 
-    ClAcqFinishedCallback callback_acquisition_finished_ptr = GETCB(ClAcqFinishedCallback, Rospix3Multisensor)(
-        std::bind(&Rospix3Multisensor::callbackTimepixAcquisitionFinished, this, std::placeholders::_1, std::placeholders::_2, i));
+    ClAcqFinishedCallback callback_acquisition_finished_ptr =
+        GETCB(ClAcqFinishedCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixAcquisitionFinished, this, _1, _2, i));
 
     pxpClSetMessageCallback(*(timepix_handlers_[i]), callback_message_ptr, nullptr);
     pxpClSetProgressCallback(*(timepix_handlers_[i]), callback_progress_ptr, nullptr);
@@ -273,6 +272,8 @@ void Rospix3Multisensor::callbackTimepixMessage(bool error, const char* message,
 
 void Rospix3Multisensor::callbackTimepixProgress(bool finished, double progress, [[maybe_unused]] void* user_data, int sensor) {
 
+  ROS_INFO("[Rospix3Multisensor]: sensor %d", sensor);
+
   ROS_INFO("[Rospix3Multisensor]: (%s): callbackProgress(): %.2f", _sensors_[sensor].c_str(), progress);
 
   if (finished) {
@@ -300,7 +301,7 @@ void Rospix3Multisensor::callbackTimepixNewClustersWithPixels(PXPClusterWithPixe
 
     _PXPClusterWithPixels& cl = clusters[i];
 
-    cluster.stamp = acquisition_start_time_[i] + ros::Duration(cl.toa / 1e9);
+    cluster.stamp = acquisition_start_time_[sensor] + ros::Duration(cl.toa / 1e9);
 
     cluster.energy    = cl.energy;
     cluster.height    = cl.height;
@@ -410,25 +411,25 @@ void Rospix3Multisensor::timerMeasurement([[maybe_unused]] const ros::TimerEvent
 
 void Rospix3Multisensor::timerPublisher([[maybe_unused]] const ros::TimerEvent& te) {
 
-  for (int i = 0; i < n_sensors_; i++) {
+  for (int sensor = 0; sensor < n_sensors_; sensor++) {
 
-    std::scoped_lock lock(*(mutex_cluster_list_[i]));
+    std::scoped_lock lock(*(mutex_cluster_list_[sensor]));
 
     rad_msgs::ClusterList cluster_list_msg;
 
-    cluster_list_msg.header.stamp    = acquisition_start_time_[i];
-    cluster_list_msg.header.frame_id = _frame_prefix_ + "/" + _sensor_aliases_[i];
+    cluster_list_msg.header.stamp    = acquisition_start_time_[sensor];
+    cluster_list_msg.header.frame_id = _frame_prefix_ + "/" + _sensor_aliases_[sensor];
 
-    for (size_t i = 0; i < cluster_list_[i]->size(); i++) {
-      cluster_list_msg.clusters.push_back(cluster_list_[i]->front());
-      cluster_list_[i]->pop_front();
+    for (size_t i = 0; i < cluster_list_[sensor]->size(); i++) {
+      cluster_list_msg.clusters.push_back(cluster_list_[sensor]->front());
+      cluster_list_[sensor]->pop_front();
     }
 
     try {
-      pub_cluster_list_[i].publish(cluster_list_msg);
+      pub_cluster_list_[sensor].publish(cluster_list_msg);
     }
     catch (...) {
-      ROS_ERROR("exception caught during publishing topic '%s'", pub_cluster_list_[i].getTopic().c_str());
+      ROS_ERROR("exception caught during publishing topic '%s'", pub_cluster_list_[sensor].getTopic().c_str());
     }
   }
 }
