@@ -582,7 +582,7 @@ void Rospix3Multisensor::timerPublisher([[maybe_unused]] const ros::TimerEvent& 
     rad_msgs::ClusterList cluster_list_msg;
 
     cluster_list_msg.header.stamp    = acquisition_start_time_[sensor];
-    cluster_list_msg.header.frame_id = _frame_prefix_ + "/" + _sensor_aliases_[sensor];
+    cluster_list_msg.header.frame_id = _frame_prefix_ + "/minipix_" + _sensor_aliases_[sensor];
 
     for (size_t i = 0; i < cluster_list_[sensor]->size(); i++) {
       cluster_list_msg.clusters.push_back(cluster_list_[sensor]->front());
