@@ -1,0 +1,35 @@
+<launch>
+
+  <arg name="raw_data_path" default="$(find rospix3)/raw_data" />
+
+  <arg name="calibration_path" default="$(find rospix3)/lib/x64/configs" />
+
+  <arg name="frame_prefix" default="$(env UAV_NAME)" />
+
+  <arg name="verbose" default="true" />
+
+  <arg name="debug" default="false" />
+  <arg unless="$(arg debug)" name="launch_prefix_debug" value=""/>
+  <arg     if="$(arg debug)" name="launch_prefix_debug" value="debug_roslaunch"/>
+
+  <arg name="standalone" default="true" />
+  <arg name="manager" default="manager_name" />
+  <arg unless="$(arg standalone)" name="nodelet" value="load"/>
+  <arg     if="$(arg standalone)" name="nodelet" value="standalone"/>
+  <arg unless="$(arg standalone)" name="nodelet_manager" value="$(arg manager)"/>
+  <arg     if="$(arg standalone)" name="nodelet_manager" value=""/>
+
+  <node pkg="nodelet" type="nodelet" name="rospix3" args="$(arg nodelet) rospix3/Rospix3Multisensor $(arg nodelet_manager)" launch-prefix="$(arg launch_prefix_debug)" output="screen">
+
+    <rosparam file="$(find rospix3)/config/multi.yaml" />
+
+    <param name="frame_prefix" value="$(arg frame_prefix)" />
+
+    <param name="raw_data_path" value="$(arg raw_data_path)" />
+    <param name="calibration_path" value="$(arg calibration_path)" />
+
+    <param name="verbose" value="$(arg verbose)" />
+
+  </node>
+
+</launch>

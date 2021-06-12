@@ -23,7 +23,7 @@ set(Eigen_LIBRARIES ${Eigen_LIBRARIES})
 
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES Rospix3
+  LIBRARIES Rospix3 Rospix3Multisensor
   CATKIN_DEPENDS roscpp mrs_lib dynamic_reconfigure std_msgs rad_msgs
   DEPENDS Eigen
   )
@@ -68,6 +68,19 @@ add_dependencies(Rospix3
   )
 
 target_link_libraries(Rospix3
+  ${catkin_LIBRARIES}
+  ${LIB_DIR}/libpxproc.so
+  # ${LIB_DIR}/pxcore.so
+  )
+
+add_library(Rospix3Multisensor src/rospix3multisensor.cpp)
+
+add_dependencies(Rospix3Multisensor
+  ${catkin_EXPORTED_TARGETS}
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+  )
+
+target_link_libraries(Rospix3Multisensor
   ${catkin_LIBRARIES}
   ${LIB_DIR}/libpxproc.so
   # ${LIB_DIR}/pxcore.so

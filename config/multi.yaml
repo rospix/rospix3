@@ -1,0 +1,36 @@
+sensors: [
+  "MiniPIX-E04-W0060",
+  # "MiniPIX-L06-W0060",
+]
+
+sensor_aliases: [
+  "compton_camera_left",
+  # "compton_camera_right",
+]
+
+# should load calibration?
+use_calibration: true
+
+# save t3pa data?
+save_raw_data: true
+
+# how often do we check whether the measurement is ongoing
+# if its not, we start new measurement
+measurement_timer_rate: 10 # [Hz]
+
+# how often do we publish data
+# data is being aggregated in a queue until the publisher timer fires up
+publisher_timer_rate: 30 # [Hz]
+
+# there are multiple acquisitions during one measurement
+acquisition_duration: 1.0 # [s]
+measurement_duration: 20.0 # [s]
+
+noisy_pixel_masking:
+
+  # automatic identification of noisy pixels
+  # if pixel is 10x more active than others
+  identify: true
+
+  # mask noisy pixels
+  mask: true

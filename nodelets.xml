@@ -3,3 +3,9 @@
     <description>Rospix3</description>
   </class>
 </library>
+
+<library path="lib/libRospix3Multisensor">
+  <class name="rospix3/Rospix3Multisensor" type="rospix3::Rospix3Multisensor" base_class_type="nodelet::Nodelet">
+    <description>Rospix3Multisensor</description>
+  </class>
+</library>
