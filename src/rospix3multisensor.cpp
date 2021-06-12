@@ -83,11 +83,17 @@ private:
 
   std::vector<std::unique_ptr<clhandle_t>> timepix_handlers_;
 
-  void callbackTimepixMessage(bool error, const char* message, void* user_data, int sensor);
-  void callbackTimepixProgress(bool finished, double progress, void* user_data, int sensor);
-  void callbackTimepixNewClustersWithPixels(PXPClusterWithPixels* clusters, size_t cluster_count, size_t acq_index, void* user_data, int sensor);
-  void callbackTimepixAcquisitionStart(int acqIndex, void* userData, int sensor);
-  void callbackTimepixAcquisitionFinished(int acqIndex, void* userData, int sensor);
+  void callbackTimepixMessage0(bool error, const char* message, void* user_data);
+  void callbackTimepixProgress0(bool finished, double progress, void* user_data);
+  void callbackTimepixNewClustersWithPixels0(PXPClusterWithPixels* clusters, size_t cluster_count, size_t acq_index, void* user_data);
+  void callbackTimepixAcquisitionStart0(int acqIndex, void* userData);
+  void callbackTimepixAcquisitionFinished0(int acqIndex, void* userData);
+
+  void callbackTimepixMessage1(bool error, const char* message, void* user_data);
+  void callbackTimepixProgress1(bool finished, double progress, void* user_data);
+  void callbackTimepixNewClustersWithPixels1(PXPClusterWithPixels* clusters, size_t cluster_count, size_t acq_index, void* user_data);
+  void callbackTimepixAcquisitionStart1(int acqIndex, void* userData);
+  void callbackTimepixAcquisitionFinished1(int acqIndex, void* userData);
 
   std::vector<int>       acquisition_counter_;
   std::vector<bool>      acquisition_in_progress_;
@@ -197,26 +203,52 @@ void Rospix3Multisensor::onInit() {
 
     // | ------------- bind the timepix api callbacks ------------- |
 
-    ClMessageCallback callback_message_ptr =
-        GETCB(ClMessageCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixMessage, this, _1, _2, _3, i));
+    if (i == 0) {
 
-    ClProgressCallback callback_progress_ptr =
-        GETCB(ClProgressCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixProgress, this, _1, _2, _3, i));
+      ClMessageCallback callback_message_ptr =
+          GETCB(ClMessageCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixMessage0, this, _1, _2, _3));
 
-    ClNewClustersWithPixelsCallback callback_new_clusters_with_pixels_ptr = GETCB(
-        ClNewClustersWithPixelsCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixNewClustersWithPixels, this, _1, _2, _3, _4, i));
+      ClProgressCallback callback_progress_ptr =
+          GETCB(ClProgressCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixProgress0, this, _1, _2, _3));
 
-    ClAcqStartedCallback callback_acquisition_start_ptr =
-        GETCB(ClAcqStartedCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixAcquisitionStart, this, _1, _2, i));
+      ClNewClustersWithPixelsCallback callback_new_clusters_with_pixels_ptr = GETCB(
+          ClNewClustersWithPixelsCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixNewClustersWithPixels0, this, _1, _2, _3, _4));
 
-    ClAcqFinishedCallback callback_acquisition_finished_ptr =
-        GETCB(ClAcqFinishedCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixAcquisitionFinished, this, _1, _2, i));
+      ClAcqStartedCallback callback_acquisition_start_ptr =
+          GETCB(ClAcqStartedCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixAcquisitionStart0, this, _1, _2));
 
-    pxpClSetMessageCallback(*(timepix_handlers_[i]), callback_message_ptr, nullptr);
-    pxpClSetProgressCallback(*(timepix_handlers_[i]), callback_progress_ptr, nullptr);
-    pxpClSetNewClustersWithPixelsCallback(*(timepix_handlers_[i]), callback_new_clusters_with_pixels_ptr, nullptr);
-    pxpClSetAcqStartedCallback(*(timepix_handlers_[i]), callback_acquisition_start_ptr, nullptr);
-    pxpClSetAcqFinishedCallback(*(timepix_handlers_[i]), callback_acquisition_finished_ptr, nullptr);
+      ClAcqFinishedCallback callback_acquisition_finished_ptr =
+          GETCB(ClAcqFinishedCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixAcquisitionFinished0, this, _1, _2));
+
+      pxpClSetMessageCallback(*(timepix_handlers_[i]), callback_message_ptr, nullptr);
+      pxpClSetProgressCallback(*(timepix_handlers_[i]), callback_progress_ptr, nullptr);
+      pxpClSetNewClustersWithPixelsCallback(*(timepix_handlers_[i]), callback_new_clusters_with_pixels_ptr, nullptr);
+      pxpClSetAcqStartedCallback(*(timepix_handlers_[i]), callback_acquisition_start_ptr, nullptr);
+      pxpClSetAcqFinishedCallback(*(timepix_handlers_[i]), callback_acquisition_finished_ptr, nullptr);
+
+    } else {
+
+      ClMessageCallback callback_message_ptr =
+          GETCB(ClMessageCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixMessage1, this, _1, _2, _3));
+
+      ClProgressCallback callback_progress_ptr =
+          GETCB(ClProgressCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixProgress1, this, _1, _2, _3));
+
+      ClNewClustersWithPixelsCallback callback_new_clusters_with_pixels_ptr = GETCB(
+          ClNewClustersWithPixelsCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixNewClustersWithPixels1, this, _1, _2, _3, _4));
+
+      ClAcqStartedCallback callback_acquisition_start_ptr =
+          GETCB(ClAcqStartedCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixAcquisitionStart1, this, _1, _2));
+
+      ClAcqFinishedCallback callback_acquisition_finished_ptr =
+          GETCB(ClAcqFinishedCallback, Rospix3Multisensor)(boost::bind(&Rospix3Multisensor::callbackTimepixAcquisitionFinished1, this, _1, _2));
+
+      pxpClSetMessageCallback(*(timepix_handlers_[i]), callback_message_ptr, nullptr);
+      pxpClSetProgressCallback(*(timepix_handlers_[i]), callback_progress_ptr, nullptr);
+      pxpClSetNewClustersWithPixelsCallback(*(timepix_handlers_[i]), callback_new_clusters_with_pixels_ptr, nullptr);
+      pxpClSetAcqStartedCallback(*(timepix_handlers_[i]), callback_acquisition_start_ptr, nullptr);
+      pxpClSetAcqFinishedCallback(*(timepix_handlers_[i]), callback_acquisition_finished_ptr, nullptr);
+    }
 
     // | ------------ create a fodler for the raw data ------------ |
 
@@ -255,9 +287,13 @@ void Rospix3Multisensor::onInit() {
 
 // | ------------------ Timepix API callbacks ----------------- |
 
-/* callbackTimepixMessage() //{ */
+// 0
 
-void Rospix3Multisensor::callbackTimepixMessage(bool error, const char* message, [[maybe_unused]] void* user_data, int i) {
+/* callbackTimepixMessage0() //{ */
+
+void Rospix3Multisensor::callbackTimepixMessage0(bool error, const char* message, [[maybe_unused]] void* user_data) {
+
+  int i = 0;
 
   if (error) {
     ROS_ERROR("[Rospix3Multisensor]: (%s): %s", _sensors_[i].c_str(), message);
@@ -268,9 +304,11 @@ void Rospix3Multisensor::callbackTimepixMessage(bool error, const char* message,
 
 //}
 
-/* callbackTimepixProgress() //{ */
+/* callbackTimepixProgress0() //{ */
 
-void Rospix3Multisensor::callbackTimepixProgress(bool finished, double progress, [[maybe_unused]] void* user_data, int sensor) {
+void Rospix3Multisensor::callbackTimepixProgress0(bool finished, double progress, [[maybe_unused]] void* user_data) {
+
+  int sensor = 0;
 
   ROS_INFO("[Rospix3Multisensor]: sensor %d", sensor);
 
@@ -283,10 +321,12 @@ void Rospix3Multisensor::callbackTimepixProgress(bool finished, double progress,
 
 //}
 
-/* callbackTimepixNewClustersWithPixels() //{ */
+/* callbackTimepixNewClustersWithPixels0() //{ */
 
-void Rospix3Multisensor::callbackTimepixNewClustersWithPixels(PXPClusterWithPixels* clusters, size_t cluster_count, size_t acq_index,
-                                                              [[maybe_unused]] void* user_data, int sensor) {
+void Rospix3Multisensor::callbackTimepixNewClustersWithPixels0(PXPClusterWithPixels* clusters, size_t cluster_count, size_t acq_index,
+                                                               [[maybe_unused]] void* user_data) {
+
+  int sensor = 0;
 
   if (_verbose_) {
     ROS_INFO("[Rospix3Multisensor]: (%s): callbackClusterWithPixels(): new clusters: count=%u, acq_index=%u\n", _sensors_[sensor].c_str(),
@@ -329,9 +369,11 @@ void Rospix3Multisensor::callbackTimepixNewClustersWithPixels(PXPClusterWithPixe
 
 //}
 
-/* callbackTimepixAcquisitionStart() //{ */
+/* callbackTimepixAcquisitionStart0() //{ */
 
-void Rospix3Multisensor::callbackTimepixAcquisitionStart([[maybe_unused]] int acqIndex, [[maybe_unused]] void* userData, int sensor) {
+void Rospix3Multisensor::callbackTimepixAcquisitionStart0([[maybe_unused]] int acqIndex, [[maybe_unused]] void* userData) {
+
+  int sensor = 0;
 
   acquisition_in_progress_[sensor] = true;
   acquisition_start_time_[sensor]  = ros::Time::now();
@@ -343,9 +385,135 @@ void Rospix3Multisensor::callbackTimepixAcquisitionStart([[maybe_unused]] int ac
 
 //}
 
-/* callbackTimepixAcquisitionFinished() //{ */
+/* callbackTimepixAcquisitionFinished0() //{ */
 
-void Rospix3Multisensor::callbackTimepixAcquisitionFinished(int acqIndex, [[maybe_unused]] void* userData, int sensor) {
+void Rospix3Multisensor::callbackTimepixAcquisitionFinished0(int acqIndex, [[maybe_unused]] void* userData) {
+
+  int sensor = 0;
+
+  acquisition_counter_[sensor] = acqIndex;
+
+  if (_verbose_) {
+    ROS_INFO("[Rospix3Multisensor]: (%s): acquisition %d finished", _sensors_[sensor].c_str(), acqIndex);
+  }
+
+  if (_noisy_pixels_identification_enabled_ && _noisy_pixels_masking_enabled_) {
+
+    int rc = pxpClMaskNoisyPixels(*(timepix_handlers_[sensor]));
+
+    if (rc == 0) {
+      ROS_INFO("[Rospix3Multisensor]: (%s): masking noisy pixels", _sensors_[sensor].c_str());
+    } else {
+      ROS_ERROR("[Rospix3Multisensor]: (%s) error while masking noisy pixels: %d", _sensors_[sensor].c_str(), rc);
+    }
+  }
+}
+
+//}
+
+// 1
+
+/* callbackTimepixMessage1() //{ */
+
+void Rospix3Multisensor::callbackTimepixMessage1(bool error, const char* message, [[maybe_unused]] void* user_data) {
+
+  int i = 1;
+
+  if (error) {
+    ROS_ERROR("[Rospix3Multisensor]: (%s): %s", _sensors_[i].c_str(), message);
+  } else {
+    ROS_INFO("[Rospix3Multisensor]: (%s): %s", _sensors_[i].c_str(), message);
+  }
+}
+
+//}
+
+/* callbackTimepixProgress1() //{ */
+
+void Rospix3Multisensor::callbackTimepixProgress1(bool finished, double progress, [[maybe_unused]] void* user_data) {
+
+  int sensor = 1;
+
+  ROS_INFO("[Rospix3Multisensor]: sensor %d", sensor);
+
+  ROS_INFO("[Rospix3Multisensor]: (%s): callbackProgress(): %.2f", _sensors_[sensor].c_str(), progress);
+
+  if (finished) {
+    ROS_INFO("[Rospix3Multisensor]: (%s): callbackProgress(): finished", _sensors_[sensor].c_str());
+  }
+}
+
+//}
+
+/* callbackTimepixNewClustersWithPixels1() //{ */
+
+void Rospix3Multisensor::callbackTimepixNewClustersWithPixels1(PXPClusterWithPixels* clusters, size_t cluster_count, size_t acq_index,
+                                                               [[maybe_unused]] void* user_data) {
+
+  int sensor = 1;
+
+  if (_verbose_) {
+    ROS_INFO("[Rospix3Multisensor]: (%s): callbackClusterWithPixels(): new clusters: count=%u, acq_index=%u\n", _sensors_[sensor].c_str(),
+             static_cast<unsigned>(cluster_count), static_cast<unsigned>(acq_index));
+  }
+
+  std::scoped_lock lock(*(mutex_cluster_list_[sensor]));
+
+  for (size_t i = 0; i < cluster_count; i++) {
+
+    rad_msgs::Cluster cluster;
+
+    _PXPClusterWithPixels& cl = clusters[i];
+
+    cluster.stamp = acquisition_start_time_[sensor] + ros::Duration(cl.toa / 1e9);
+
+    cluster.energy    = cl.energy;
+    cluster.height    = cl.height;
+    cluster.id        = cl.eventID;
+    cluster.roundness = cl.roundness;
+    cluster.size      = cl.size;
+    cluster.toa       = cl.toa;
+    cluster.x         = cl.x;
+    cluster.y         = cl.y;
+
+    for (size_t j = 0; j < cl.size; j++) {
+
+      rad_msgs::Pixel pixel;
+      pixel.x      = cl.pixels[j].x;
+      pixel.y      = cl.pixels[j].y;
+      pixel.energy = cl.pixels[j].energy;
+      pixel.toa    = cl.pixels[j].toa;
+
+      cluster.pixels.push_back(pixel);
+    }
+
+    cluster_list_[sensor]->push_back(cluster);
+  }
+}
+
+//}
+
+/* callbackTimepixAcquisitionStart1() //{ */
+
+void Rospix3Multisensor::callbackTimepixAcquisitionStart1([[maybe_unused]] int acqIndex, [[maybe_unused]] void* userData) {
+
+  int sensor = 1;
+
+  acquisition_in_progress_[sensor] = true;
+  acquisition_start_time_[sensor]  = ros::Time::now();
+
+  if (_verbose_) {
+    ROS_INFO("[Rospix3Multisensor]: (%s): acquisition %d started", _sensors_[sensor].c_str(), acqIndex);
+  }
+}
+
+//}
+
+/* callbackTimepixAcquisitionFinished1() //{ */
+
+void Rospix3Multisensor::callbackTimepixAcquisitionFinished1(int acqIndex, [[maybe_unused]] void* userData) {
+
+  int sensor = 1;
 
   acquisition_counter_[sensor] = acqIndex;
 
