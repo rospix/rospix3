@@ -4,8 +4,8 @@ sensors: [
 ]
 
 sensor_aliases: [
-  "right",
   "left",
+  "right",
 ]
 
 # should load calibration?
