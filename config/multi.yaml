@@ -1,11 +1,11 @@
 sensors: [
-  "MiniPIX-L06-W0060",
   "MiniPIX-E04-W0060",
+  "MiniPIX-L06-W0060",
 ]
 
 sensor_aliases: [
-  "left",
   "right",
+  "left",
 ]
 
 # should load calibration?
