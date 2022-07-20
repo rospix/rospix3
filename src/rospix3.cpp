@@ -35,6 +35,7 @@ class Rospix3 : public nodelet::Nodelet {
 
 public:
   virtual void onInit();
+  ~Rospix3();
 
   ros::NodeHandle nh_;
 
@@ -99,6 +100,8 @@ private:
   int       acquisition_counter_     = 0;
   bool      acquisition_in_progress_ = false;
   ros::Time acquisition_start_time_;
+
+  void stopMeasurement();
 
   // | ------------------- cluster list queue ------------------- |
 
@@ -253,6 +256,12 @@ void Rospix3::onInit() {
 
 //}
 
+/* destructor //{ */
+Rospix3::~Rospix3() {
+  stopMeasurement();
+}
+//}
+
 // | ------------------ Timepix API callbacks ----------------- |
 
 /* callbackTimepixMessage() //{ */
@@ -364,6 +373,14 @@ void Rospix3::callbackTimepixAcquisitionFinished(int acqIndex, [[maybe_unused]] 
   }
 }
 
+//}
+
+/* stopMeasurement //{ */
+void Rospix3::stopMeasurement() {
+  std::cout << "[Rospix3]: Stopping measurement..." << std::endl;
+  pxpClUnloadPixetCore();
+  std::cout << "[Rospix3]: Pixet core unloaded" << std::endl;
+}
 //}
 
 // | ------------------- dynamic reconfigure ------------------ |
