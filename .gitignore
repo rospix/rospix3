@@ -1,3 +1,4 @@
 *.swp
 *.swo
 raw_data
+lib/x64/configs/filters.xml
